@@ -145,16 +145,16 @@ bool WifiManagerSignalThreshold::isSignalThresholdChangeEnabled() const
 void WifiManagerSignalThreshold::loop(int interval)
 {
     std::unique_lock<std::mutex> lk(cv_mutex);
+    float signalStrength;
+    std::string strength;
+    std::string lastStrength = "";
+
     while(changeEnabled) {
 
-        float signalStrength;
-        std::string strength;
-        std::string lastStrength = "";
         if (running)
         {
             LOGINFO("WifiManagerSignalThreashold::loop");
             getSignalData(wifiManager, signalStrength, strength);
-
 
             if (strength != lastStrength)
             {
